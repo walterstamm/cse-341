@@ -8,12 +8,13 @@ const contactRoutes = require('./routes/contactRoutes');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 
 
 
-
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/contacts", contactRoutes);
 app.use("/", (req, res) => {
     res.send("Hello World"); 
