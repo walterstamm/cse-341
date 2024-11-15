@@ -8,7 +8,7 @@
   "host": "https://week1-cse340.onrender.com",
   "basePath": "/contacts",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/{id}": {
