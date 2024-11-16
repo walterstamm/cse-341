@@ -33,14 +33,22 @@ const updateContact = async (req, res) => {
     const contact = req.body;
     const client = await mongodb.getDb();
     const result = await client.db().collection('contacts').replaceOne({_id: id}, contact);
-    res.status(204).json(result);
+    if (result.modifiedCount === 0) {
+        res.status(404).json({ error: 'Contact not found' });
+    } else {
+        res.status(204).json(result);
+    }
 };
 
 const deleteContact = async (req, res) => {
     const id = new ObjectId(req.params.id);
     const client = await mongodb.getDb();
     const result = await client.db().collection('contacts').deleteOne({_id: id});
-    res.status(204).json(result);
+    if (result.deletedCount === 0) {
+        res.status(404).json({ error: 'Contact not found' });
+    } else {
+        res.status(204).json(result);
+    }
 };
 
 module.exports = { getContact, getAllContacts, createContact, updateContact, deleteContact };
