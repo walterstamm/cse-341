@@ -5,9 +5,13 @@ const getContact = async (req, res) => {
     const id = new ObjectId(req.params.id);
     const client = await mongodb.getDb();
     const contact = await client.db().collection('contacts').find({_id: id}).toArray();
-    console.log(contact);
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(contact);
+    if (!contact) {
+        res.status(404).json({ error: 'Contact not found' });
+    } else {
+        console.log(contact);
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json(contact);
+    }
 };
 
 const getAllContacts = async (req, res) => {
