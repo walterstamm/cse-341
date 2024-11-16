@@ -5,7 +5,7 @@ const getContact = async (req, res) => {
     const id = new ObjectId(req.params.id);
     const client = await mongodb.getDb();
     const contact = await client.db().collection('contacts').find({_id: id}).toArray();
-    if (!contact) {
+    if (contact.length === 0) {
         res.status(404).json({ error: 'Contact not found' });
     } else {
         console.log(contact);
