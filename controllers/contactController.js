@@ -29,14 +29,18 @@ const createContact = async (req, res) => {
 };
 
 const updateContact = async (req, res) => {
-    const id = new ObjectId(req.params.id);
-    const contact = req.body;
-    const client = await mongodb.getDb();
-    const result = await client.db().collection('contacts').replaceOne({_id: id}, contact);
-    if (result.modifiedCount === 0) {
+    try{
+        const id = new ObjectId(req.params.id);
+        const contact = req.body;
+        const client = await mongodb.getDb();
+        const result = await client.db().collection('contacts').replaceOne({_id: id}, contact);
+        if (result.modifiedCount === 0) {
         res.status(404).json({ error: 'Contact not found' });
     } else {
-        res.status(204).json(result);
+            res.status(204).json(result);
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
 
